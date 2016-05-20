@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">TicTacToe</string>
     <string name="x">X</string>
-    <string name="lt"><![CDATA[<--]]></string>
+    <string name="pfeil_left"><![CDATA[<—]]></string>
+    <string name="pfeil_right"><![CDATA[—>]]></string>
     <string name="y">Y</string>
     <string name="the_winner_is">The Winner is:</string>
     <string name="reset">Reset</string>
     <string name="progress_in">Progress in %</string>
     <string name="progress">Progress</string>
+    <string name="no_winner">No Winner…Please Reset!</string>
 </resources>

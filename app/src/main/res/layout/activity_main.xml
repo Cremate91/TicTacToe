@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:text="@string/lt"
+        android:text="@string/pfeil_left"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -152,13 +152,11 @@
         android:id="@+id/button10"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_above="@+id/button7"
-        android:layout_alignLeft="@+id/textView4"
-        android:layout_alignStart="@+id/textView4"
-        android:layout_alignTop="@+id/button5"
         android:background="@color/material_deep_teal_500"
         android:text="@string/reset"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:layout_above="@+id/button8"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/textView5"
