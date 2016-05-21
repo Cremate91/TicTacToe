@@ -13,7 +13,7 @@ import org.w3c.dom.Text;
 /**
  * Tic Tac Toe Game
  * ---
- *
+ * <p/>
  * Code by cremate-gamings
  * First android-app
  *
@@ -24,13 +24,14 @@ import org.w3c.dom.Text;
 public class MainActivity extends AppCompatActivity {
 
     private int playCount = 0;
-    private float progress = 0;
-    private int MAXPLAYCOUNT = 9;
+    private int progress = 0;
+    private float MAXPLAYCOUNT = 9;
     private boolean played = false;
     TextView pfeil;
     TextView winner;
     TextView progressTV;
     ProgressBar progressBar;
+    TTTBrain brain = new TTTBrain();
 
     Button reset;
     Button[] buttons;
@@ -70,13 +71,22 @@ public class MainActivity extends AppCompatActivity {
         for (final Button button : buttons) {
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    if (playCount == 9 || brain.fin) {
+                        gameOver();
 
-                    if (playCount <= 8) {
+                    } else {
                         if (button.getText() == "") {
                             button.setText(whichPlayer());
+                            int tag = Integer.parseInt(button.getTag().toString());
+                            brain.insertPlayer(tag, button.getText().toString());
+                            brain.checkForWin();
+                            if(brain.fin){
+                                gameOver();
+                            }
+                            progress = (int) (playCount / MAXPLAYCOUNT * 100);
+                            progressTV.setText(progress + "%");
+                            progressBar.setProgress(progress);
                         }
-                    }else{
-                        gameOver();
                     }
                 }
             });
@@ -87,24 +97,24 @@ public class MainActivity extends AppCompatActivity {
      * GameOver
      * Set the buttons Invisible and show the winner and restart the game
      */
+
     private void gameOver() {
 
-        for(Button button : buttons){
+        for (Button button : buttons) {
 
             button.setVisibility(View.INVISIBLE);
         }
-        if(playCount > 8){
-            Log.d("hi", "test");
+        if (playCount > 8) {
+            //Log.d("hi", "test");
             winner.setText(R.string.no_winner);
-        }else{
-            //ToDo Brainlogic
-            //Log.d("hi", "ttttt");
+        } else {
+            winner.setText("The Winner is: " + brain.winner);
 
         }
         winner.setVisibility(View.VISIBLE);
         reset.setVisibility(View.VISIBLE);
-        reset.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        reset.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 reset();
             }
         });
@@ -116,11 +126,16 @@ public class MainActivity extends AppCompatActivity {
      */
     private void reset() {
         playCount = 0;
+        progressBar.setProgress(0);
+        progress = 0;
+        progressTV.setText(0 + "%");
         pfeil.setText(R.string.pfeil_left);
         winner.setVisibility(View.INVISIBLE);
         reset.setVisibility(View.INVISIBLE);
+        brain = new TTTBrain();
 
-        for(Button button : buttons){
+
+        for (Button button : buttons) {
             button.setText("");
             button.setVisibility(View.VISIBLE);
         }
@@ -129,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Give the Player (X or Y) back which is set to the button
+     *
      * @return String with X or Y
      */
     public String whichPlayer() {
